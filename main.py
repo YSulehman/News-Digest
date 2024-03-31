@@ -9,6 +9,7 @@ def main(args):
 if __name__=="__main__":
     parser = argparse.ArgumentParser()
 
+    #user defined functions as types for cl arguments!
     parser.add_argument('-kw', '--keywords', type=list_of_keywords, help='keywords for news search, comma separated')
 
     parser.add_argument('-frq', '--frequency', type=str, choices=['daily', 'weekly'], 
