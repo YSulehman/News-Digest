@@ -12,6 +12,8 @@ class News:
         self.email_freq = email_frequency
         self.email = email
 
+        self._get_keyword_articles(self.lst_keywords, self.email_freq)
+
     def _get_keyword_articles(self, lst_of_keywords, articles_from):
         #get 'from' query parameter
         todays_date = date.today()
@@ -20,4 +22,7 @@ class News:
         else:
             oldest_article_from = str(todays_date - timedelta(days = 7))
         for word in lst_of_keywords:
-            params = {'apiKey': self.api_key, 'q': word, 'language': 'en', 'from': oldest_article_from}
+            #specify query parameters
+            params = {'apiKey': self.api_key, 'q': word, 'language': 'en', 'from': oldest_article_from, 'pageSize': 2}
+
+            article_info = requests.get(self.url,params=params)
