@@ -1,10 +1,12 @@
-import json
+import os
 import requests
 from datetime import date, timedelta
 
+#get api-key
+news_api_key = os.environ.get('NEWS_API_KEY')
+
 class News:
-    api_key = 'f50463cd13ed4a009e961148e1a90a05'
-    headers = {'X-Api-Key': api_key}
+    headers = {'X-Api-Key': news_api_key}
     url = 'https://newsapi.org/v2/everything' #search every article published by over 5,000 different sources in the last 5 years
     url_breaking = 'https://newsapi.org/v2/top-headlines' #provides live top and breaking headlines
 
@@ -49,6 +51,7 @@ class News:
                     for article in articles:
                         article_content = article['content']
                         article_url = article['url']
+                        print(article_content)
 
 if __name__=="__main__":
     n = News(['United'], 200, 'weekly', 'ysulehman@hotmail.com')
