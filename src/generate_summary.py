@@ -4,6 +4,7 @@ from datetime import date, timedelta
 
 class News:
     api_key = 'f50463cd13ed4a009e961148e1a90a05'
+    headers = {'X-Api-Key': api_key}
     url = 'https://newsapi.org/v2/everything' #search every article published by over 5,000 different sources in the last 5 years
     url_breaking = 'https://newsapi.org/v2/top-headlines' #provides live top and breaking headlines
 
@@ -23,14 +24,14 @@ class News:
         for word in lst_of_keywords:
             #specify query parameters
             if articles_from == 'weekly':
-                weekly_params = {'apiKey': self.api_key, 'q': word, 'language': 'en', 'from': oldest_article_from, 'pageSize': 1}
+                weekly_params = {'q': word, 'language': 'en', 'from': oldest_article_from, 'pageSize': 1}
 
-                article_request = requests.get(self.url,params=weekly_params)
+                article_request = requests.get(self.url,params=weekly_params, headers=self.headers)
             else:
-                daily_params = {'apiKey': self.api_key, 'q': word, 'country': 'gb','pageSize': 1}
+                daily_params = {'q': word, 'country': 'gb','pageSize': 1}
 
-                article_request = requests.get(self.url_breaking,params=daily_params)
-                #print(article_request.url)
+                article_request = requests.get(self.url_breaking,params=daily_params, headers=self.headers)
+            print(article_request.url)
 
             if article_request.status_code != 200:
                 print(f'unsuccessful request, error code: {article_request.status_code} reason: {article_request.reason}')
@@ -50,4 +51,4 @@ class News:
                         article_url = article['url']
 
 if __name__=="__main__":
-    n = News(['United'], 200, 'daily', 'ysulehman@hotmail.com')
+    n = News(['United'], 200, 'weekly', 'ysulehman@hotmail.com')
