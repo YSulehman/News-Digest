@@ -6,7 +6,7 @@ class News:
     api_key = 'f50463cd13ed4a009e961148e1a90a05'
     url = 'https://newsapi.org/v2/everything'
 
-    def __init__(self, list_of_keywords, word_limit, email_frequency, email):
+    def __init__(self, list_of_keywords: list, word_limit: int, email_frequency: str, email: str):
         self.lst_keywords = list_of_keywords
         self.word_limit = word_limit
         self.email_freq = email_frequency
@@ -14,7 +14,7 @@ class News:
 
         self._get_keyword_articles(self.lst_keywords, self.email_freq)
 
-    def _get_keyword_articles(self, lst_of_keywords, articles_from):
+    def _get_keyword_articles(self, lst_of_keywords: list, articles_from: str):
         #get 'from' query parameter
         todays_date = date.today()
         if articles_from is 'daily':
