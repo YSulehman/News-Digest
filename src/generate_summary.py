@@ -1,10 +1,16 @@
 import os
 import requests
+from openai import OpenAI
 from datetime import date, timedelta
 
 #get api-key
 news_api_key = os.environ.get('NEWS_API_KEY')
 news_api_key = news_api_key.strip("'") #had issue with single quotes, it included these from the environment variable.
+openai_api_key = os.environ.get('OPENAI_API_KEY')
+print(openai_api_key)
+
+# for key, value in os.environ.items():
+#     print(f"{key}: {value}")
 
 class News:
     headers = {'X-Api-Key': news_api_key}
@@ -57,10 +63,12 @@ class News:
                         article_content = article['description']
                         article_url = article['url']
                         #print(article_content)
-                        print(title)
-                        print(len(article_content))
-                        print(article_url)
-                        self._write_to_file(title, article_content, article_url, './test_article.txt')
+                        #print(title)
+                        #print(len(article_content))
+                        #print(article_url)
+                        #self._write_to_file(title, article_content, article_url, './test_article.txt')
+                        #summary = self._gpt_summary(article_content)
+                        #print(summary)
 
     def _write_to_file(self, heading: str, contents: str, article_url: str, file_name: str):
         with open(file_name, 'w') as f:
@@ -68,5 +76,19 @@ class News:
             f.write(contents + '\n\n')
             f.write(article_url)
 
+    def _gpt_summary(self, text_to_summarise):
+        client = OpenAI(api_key=openai_api_key)
+
+        response = client.chat.completions.create(
+            messages = [
+                {'role': 'user',
+                'content': text_to_summarise}],
+            model="gpt-3.5-turbo",
+            temperature=0.5,
+            max_tokens=50)
+
+        summary = response['choices'][0]['message']['content']
+
+        return summary 
 if __name__=="__main__":
     n = News(['United'], 200, 'weekly', 'ysulehman@hotmail.com')
