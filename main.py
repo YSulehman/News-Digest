@@ -1,4 +1,5 @@
 import argparse
+from src.generate_summary import News
 
 def list_of_keywords(arg):
     return arg.split(',')
