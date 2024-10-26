@@ -5,7 +5,21 @@ def list_of_keywords(arg):
     return arg.split(',')
 
 def main(args):
-    pass
+    # parse arguments to pass to News class
+    news_args = {
+        'list_of_keywords': args.keywords,
+        'word_limit': args.word_limit,
+        'email_frequency': args.frequency,
+        'email': args.email
+    }
+
+    news = News(**news_args)
+
+    # make the newsletter content
+    news.make_newsletter(args.keywords, args.frequency)
+
+    # send the email
+    news.send_email(args.email, news.title, news.summary, news.article_url)
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser()
